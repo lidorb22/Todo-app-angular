@@ -1,0 +1,75 @@
+<div class="bg-first w-full h-screen p-[40px] flex flex-col gap-[40px] tracking-[0.2em] text-white" *ngIf="board">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-[30px]">Board</p>
+      <p>{{ board.name }}</p>
+    </div>
+    <div class="flex gap-[20px] text-[25px] mr-[20px]">
+      <fa-icon [icon]="faSquarePlus" (click)="addTable('add')" *ngIf="!newTableState"></fa-icon>
+      <fa-icon [icon]="faSquareArrowUpRight" [routerLink]="['/']"></fa-icon>
+    </div>
+  </div>
+  <div class="w-full h-full flex flex-col gap-[40px] overflow-y-auto">
+    <div
+      class="w-full h-max bg-second rounded-[5px] pb-[10px] flex flex-col gap-[10px]"
+      *ngFor="let table of board.tables; let tableIndex = index"
+    >
+      <div class="w-full h-[65px] bg-third rounded-[5px] px-[20px] flex items-center justify-between">
+        <p>{{ table.title }}</p>
+        <div class="flex gap-[20px] text-[25px] text-fore">
+          <fa-icon [icon]="faSquarePlus" (click)="addInput(tableIndex)"></fa-icon>
+          <fa-icon [icon]="faSquareXmark" (click)="removeFunc(tableIndex, 'table')"></fa-icon>
+        </div>
+      </div>
+      <div
+        class="w-full flex justify-between items-center px-[20px]"
+        *ngFor="let text of table.inputs; let inputIndex = index"
+      >
+        <p class="{{ text.state ? 'line-through text-white/40' : '' }}" (click)="markDone(tableIndex, inputIndex)">
+          {{ text.input }}
+        </p>
+        <div class="flex gap-[20px] text-[25px] text-third">
+          <fa-icon [icon]="faSquarePen" (click)="editInput(tableIndex, inputIndex)" *ngIf="!text.state"></fa-icon>
+          <fa-icon [icon]="faSquareMinus" (click)="removeFunc(inputIndex, 'input', tableIndex)"></fa-icon>
+        </div>
+      </div>
+      <!--New Input tamp-->
+      <div
+        class="w-full h-max px-[20px] flex justify-between items-center gap-[45px]"
+        *ngIf="newInputState && tableSelected === tableIndex"
+      >
+        <input
+          type="text"
+          class="rounded-[5px] w-full focus:outline-none px-[10px] text-black"
+          placeholder="New todo"
+          id="newInput"
+          name="newInput"
+          [(ngModel)]="newInput"
+        />
+        <fa-icon class="text-[25px] text-third" [icon]="faSquarePlus" (click)="addInput(tableIndex, true)"></fa-icon>
+      </div>
+    </div>
+    <!--New table tamp-->
+    <div class="w-full h-max bg-second rounded-[5px] pb-[10px] flex flex-col gap-[10px]" *ngIf="newTableState">
+      <div class="w-full h-[65px] bg-third rounded-[5px] px-[20px] flex items-center justify-between">
+        <p>New table</p>
+        <fa-icon class="text-[25px] text-fore" [icon]="faSquareXmark" (click)="addTable('close')"></fa-icon>
+      </div>
+      <ul class="list-disc ml-[40px] flex flex-col gap-[20px]" *ngIf="!newTableTitleState">
+        <li (click)="addTable('toTitle')">Chack list</li>
+        <li>Remainder</li>
+      </ul>
+      <div class="w-full px-[20px] flex justify-between gap-[45px]" *ngIf="newTableTitleState">
+        <input
+          class="w-full rounded-[5px] px-[10px] focus:outline-none text-black"
+          type="text"
+          id="titleInput"
+          name="titleInput"
+          placeholder="Title this table"
+          [(ngModel)]="titleInput"
+        />
+        <fa-icon class="text-[25px] text-third" [icon]="faSquarePlus" (click)="addTable()"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="bg-first w-full h-screen flex flex-col gap-[20px] text-white tracking-[0.2em]" *ngIf="docs">
+  <div class="flex items-center justify-between w-full px-[40px] mt-[40px]">
+    <p class="text-[30px]">Document</p>
+    <fa-icon class="text-[25px]" [icon]="faSquareArrowUpRight" [routerLink]="['/']"></fa-icon>
+  </div>
+  <div class="w-full h-full bg-second rounded-t-[15px] p-[40px] flex flex-col gap-[20px]">
+    <div class="w-full h-full flex flex-col gap-[20px]">
+      <div class="w-[120px] h-[40px] bg-third rounded-[5px] flex items-center justify-center">
+        <p>{{ docs.title }}</p>
+      </div>
+      <div class="w-full h-full flex flex-col gap-[20px]">
+        <div class="w-full h-max flex flex-col gap-[10px]" *ngFor="let doc of docs.docs">
+          <p>{{ doc.title }}</p>
+          <p class="text-white/60">{{ doc.doc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

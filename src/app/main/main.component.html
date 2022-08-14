@@ -1,0 +1,56 @@
+<div class="bg-first w-full h-screen flex flex-col gap-0 tracking-[0.2em] text-white">
+  <p class="text-[30px] mt-[40px] ml-[40px]">Todo app</p>
+  <div class="w-full h-full pt-[20px] px-[40px] flex flex-col gap-[20px] overflow-y-auto">
+    <div
+      class="w-full bg-second h-[65px] rounded-[5px] px-[20px] flex items-center justify-between"
+      *ngFor="let board of boards; let boardIndex = index"
+    >
+      <p [routerLink]="['board', board.id]">{{ board.name }}</p>
+      <fa-icon
+        class="text-third text-[25px]"
+        [icon]="faSquareMinus"
+        (click)="removeBoard('removing', boardIndex)"
+      ></fa-icon>
+    </div>
+    <!--tamplate-->
+    <div
+      class="w-full bg-second h-[65px] rounded-[5px] px-[20px] flex items-center justify-between gap-[20px]"
+      *ngIf="newBoardState"
+    >
+      <input
+        type="text"
+        placeholder="Name this table"
+        class="w-full rounded-[5px] px-[10px] text-black focus:outline-none"
+        id="inputField"
+        name="inputField"
+        [(ngModel)]="inputField"
+      />
+      <fa-icon class="text-third text-[25px]" [icon]="faSquarePlus" (click)="addBoard('add')"></fa-icon>
+      <fa-icon class="text-third text-[25px]" [icon]="faSquareMinus" (click)="addBoard('close')"></fa-icon>
+    </div>
+  </div>
+  <div class="w-full min-h-max bg-second flex flex-col rounded-t-[15px] p-[40px] gap-[20px]">
+    <p class="text-[30px]">Documsent</p>
+    <p>Welcome to this todo list angular app. this app has bean developed to learn the angular framwork.</p>
+    <ul class="list-disc pl-[20px]">
+      <li [routerLink]="['doc', doc.id]" *ngFor="let doc of docs">{{ doc.title }}</li>
+    </ul>
+    <div class="bg-third w-max px-3 py-2 rounded-[5px]" (click)="addBoard('addButt')">Add new board</div>
+  </div>
+  <div
+    class="w-full h-full absolute top-0 left-0 bg-first/50 backdrop-blur-[2px] flex items-center justify-center"
+    *ngIf="worningState"
+  >
+    <div class="bg-second w-5/6 h-max p-[40px] rounded-[5px] flex flex-col gap-[20px]">
+      <div>
+        <p>Worning!</p>
+        <p>Action: Board removing</p>
+      </div>
+      <p>Are you sure you want to remove {{ boards[newBoardIndex].name }} board. from here there is no going back!</p>
+      <div class="text-[25px] flex justify-around text-third">
+        <fa-icon [icon]="faSquareCheck" (click)="removeBoard('remove')"></fa-icon>
+        <fa-icon [icon]="faSquareXmark" (click)="removeBoard('exit')"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>
